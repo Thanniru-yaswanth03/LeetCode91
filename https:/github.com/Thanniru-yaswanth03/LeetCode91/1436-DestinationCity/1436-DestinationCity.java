@@ -1,16 +1,17 @@
-// Last updated: 9/3/2026, 2:52:50 PM
+// Last updated: 9/3/2026, 3:16:35 PM
 1class Solution {
-2    public int largestAltitude(int[] gain) {
-3        //here what i did is created two vars alt and high and initialised them with 0 
-4        int highest=0;
-5        int altitude=0;
-6        //and ran a for loop and added  altitude with every ele till loop ends and then 
-7        for(int i=0;i<gain.length;i++){
-8            altitude+=gain[i];
-9            //here i checked whether my curr altitude is higher than the highest variable if it is then store it to return it later and its done 
-10            if(altitude>highest){
-11                highest=altitude;
-12            }
-13        }return highest;
-14    }
-15}
+2    public void moveZeroes(int[] nums) {
+3        
+4        int j = 0;
+5
+6        for (int i = 0; i < nums.length; i++) {
+7            
+8            if (nums[i] != 0) {
+9                int temp = nums[i];
+10                nums[i] = nums[j];
+11                nums[j] = temp;
+12                j++;
+13            }
+14        }
+15    }
+16}
