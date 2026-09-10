@@ -1,55 +1,73 @@
-// Last updated: 9/10/2026, 1:54:21 PM
+// Last updated: 9/10/2026, 1:55:39 PM
 1class Solution {
 2
 3    public int[] sortArray(int[] nums) {
 4
-5        int n = nums.length;
+5        mergeSort(nums, 0, nums.length - 1);
 6
-7        // Build a max heap
-8        for (int i = n / 2 - 1; i >= 0; i--) {
-9            heapify(nums, n, i);
-10        }
+7        return nums;
+8    }
+9
+10    public void mergeSort(int[] nums, int left, int right) {
 11
-12        // Move the largest element to the end
-13        for (int i = n - 1; i > 0; i--) {
-14
-15            int temp = nums[0];
-16            nums[0] = nums[i];
-17            nums[i] = temp;
+12        // Stop when there is only one element
+13        if (left >= right) {
+14            return;
+15        }
+16
+17        int mid = left + (right - left) / 2;
 18
-19            // Restore the heap
-20            heapify(nums, i, 0);
-21        }
-22
-23        return nums;
-24    }
-25
-26    public void heapify(int[] nums, int n, int i) {
-27
-28        int largest = i;
-29
-30        int left = 2 * i + 1;
-31        int right = 2 * i + 2;
+19        // Sort the left half
+20        mergeSort(nums, left, mid);
+21
+22        // Sort the right half
+23        mergeSort(nums, mid + 1, right);
+24
+25        // Merge both sorted halves
+26        merge(nums, left, mid, right);
+27    }
+28
+29    public void merge(int[] nums, int left, int mid, int right) {
+30
+31        int[] temp = new int[right - left + 1];
 32
-33        // Check if left child is larger
-34        if (left < n && nums[left] > nums[largest]) {
-35            largest = left;
-36        }
-37
-38        // Check if right child is larger
-39        if (right < n && nums[right] > nums[largest]) {
-40            largest = right;
-41        }
-42
-43        // If a child is larger, swap and continue
-44        if (largest != i) {
-45
-46            int temp = nums[i];
-47            nums[i] = nums[largest];
-48            nums[largest] = temp;
-49
-50            heapify(nums, n, largest);
-51        }
-52    }
-53}
-54
+33        int i = left;
+34        int j = mid + 1;
+35        int k = 0;
+36
+37        // Compare both halves and put the smaller value into temp
+38        while (i <= mid && j <= right) {
+39
+40            if (nums[i] <= nums[j]) {
+41                temp[k] = nums[i];
+42                i++;
+43            } else {
+44                temp[k] = nums[j];
+45                j++;
+46            }
+47
+48            k++;
+49        }
+50
+51        // Copy remaining elements from the left half
+52        while (i <= mid) {
+53            temp[k] = nums[i];
+54            i++;
+55            k++;
+56        }
+57
+58        // Copy remaining elements from the right half
+59        while (j <= right) {
+60            temp[k] = nums[j];
+61            j++;
+62            k++;
+63        }
+64
+65        // Copy sorted values back into nums
+66        for (int x = 0; x < temp.length; x++) {
+67            nums[left + x] = temp[x];
+68        }
+69    }
+70}
+71
+72
